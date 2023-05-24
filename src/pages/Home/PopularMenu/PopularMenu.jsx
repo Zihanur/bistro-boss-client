@@ -1,6 +1,6 @@
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
-import MenuItem from "../../Shared/MenuItem/MenuItem";
 import useMenu from "../../../hooks/useMenu";
+import FoodCard from "../../../components/FoodCard/FoodCard";
 
 const PopularMenu = () => {
   const [menu] = useMenu();
@@ -12,9 +12,9 @@ const PopularMenu = () => {
         subHeading={"Check it out"}
         heading={"FROM OUR MENU"}
       ></SectionTitle>
-      <div className="grid md:grid-cols-2 gap-4">
+      <div className="grid md:grid-cols-3 gap-4">
         {popular.map((item) => (
-          <MenuItem key={item._id} item={item}></MenuItem>
+          <FoodCard key={item._id} item={item}></FoodCard>
         ))}
       </div>
       <div className="text-center py-4">

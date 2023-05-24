@@ -11,12 +11,13 @@ import MenuCategoty from "../MenuCategory/MenuCategoty";
 
 const Menu = () => {
   const [menu] = useMenu();
+  
   const offered = menu.filter((item) => item.category === "offered");
   const dessert = menu.filter((item) => item.category === "dessert");
   const pizza = menu.filter((item) => item.category === "pizza");
   const salad = menu.filter((item) => item.category === "salad");
   const soup = menu.filter((item) => item.category === "soup");
-  console.log(soup);
+  
   return (
     <div>
       <Helmet>
@@ -30,17 +31,13 @@ const Menu = () => {
       ></SectionTitle>
       <MenuCategoty items={offered}></MenuCategoty>
       {/* dessert */}
-      <Cover img={dessertImg} title={"desserts"}></Cover>
-      <MenuCategoty items={dessert}></MenuCategoty>
+      <MenuCategoty items={dessert} title={"desserts"} img={dessertImg}></MenuCategoty>
       {/* pizza */}
-      <Cover img={pizzaImg} title={"pizzas"}></Cover>
-      <MenuCategoty items={pizza}></MenuCategoty>
+      <MenuCategoty items={pizza} title={"pizzas"} img={pizzaImg}></MenuCategoty>
       {/* salad */}
-      <Cover img={saladImg} title={"salads"}></Cover>
-      <MenuCategoty items={salad}></MenuCategoty>
+      <MenuCategoty items={salad} title={"salads"} img={saladImg}></MenuCategoty>
       {/* soup */}
-      <Cover img={soupImg} title={"soups"}></Cover>
-      <MenuCategoty items={soup}></MenuCategoty>
+      <MenuCategoty items={soup} title={"soups"} img={soupImg}></MenuCategoty>
     </div>
   );
 };
