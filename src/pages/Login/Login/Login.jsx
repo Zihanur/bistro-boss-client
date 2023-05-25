@@ -1,11 +1,19 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import {
   loadCaptchaEnginge,
   LoadCanvasTemplate,
   validateCaptcha,
 } from "react-simple-captcha";
+import { AuthContext } from "../../../providers/AuthProvider";
+import { Link } from "react-router-dom";
+import loginImg from "../../../assets/others/authentication1.png";
+import { Helmet } from "react-helmet-async";
 
 const Login = () => {
+  const { userLogin } = useContext(AuthContext);
+  const [error, setError] = useState("");
+
+  //captcha part
   const [disabled, setDisabled] = useState(true);
   const captchaRef = useRef(null);
   useEffect(() => {
@@ -14,36 +22,49 @@ const Login = () => {
 
   const captchaVerify = () => {
     const user_captcha = captchaRef.current.value;
-    console.log(validateCaptcha, user_captcha)
-    if(validateCaptcha(user_captcha)){
-      setDisabled(false)
-    }
-    else{
-      setDisabled(true)
+    console.log(validateCaptcha, user_captcha);
+    if (validateCaptcha(user_captcha)) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
     }
   };
 
+  //submit login handle
   const handleLogin = (event) => {
     event.preventDefault();
     const form = event.target;
     const email = form.email.value;
     const password = form.password.value;
     console.log(email, password);
+    setError("");
+    //login function
+    userLogin(email, password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        alert("Successfully Login");
+        form.reset("");
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setError(error.message);
+      });
   };
+
   return (
-    <div>
+    <>
+      <Helmet>
+        <title>Bistro Boss | Login</title>
+      </Helmet>
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row">
           <div className="text-center md:w-1/2 lg:text-left">
-            <p className="py-6">
-              Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-              excepturi exercitationem quasi. In deleniti eaque aut repudiandae
-              et a id nisi.
-            </p>
+            <img className="p-6" src={loginImg} alt="" />
           </div>
           <div className="card md:w-1/2 max-w-sm shadow-2xl bg-base-100">
             <form onSubmit={handleLogin} className="card-body">
-              <h1 className="text-5xl font-bold ">Login now</h1>
+              <h1 className="text-5xl font-bold text-center">Login now</h1>
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Email</span>
@@ -97,11 +118,18 @@ const Login = () => {
                   value="Login"
                 />
               </div>
+              <p>
+                Are you new?{" "}
+                <Link to={"/signup"} className="text-primary">
+                  SignUp
+                </Link>
+              </p>
+              <p className="text-orange-600">{error}</p>
             </form>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
