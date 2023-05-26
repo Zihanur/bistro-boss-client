@@ -2,8 +2,12 @@ import { Link } from "react-router-dom";
 import loginImg from "../../../assets/others/authentication1.png";
 import { useForm } from "react-hook-form";
 import { Helmet } from "react-helmet-async";
+import { useContext } from "react";
+import { AuthContext } from "../../../providers/AuthProvider";
 
 const SignUp = () => {
+  const { createUser } = useContext(AuthContext);
+
   //react hook form cotrol
   const {
     register,
@@ -13,8 +17,16 @@ const SignUp = () => {
 
   const onSubmit = (data) => {
     console.log(data);
+    createUser(data.email, data.password)
+      .then((result) => {
+        console.log(result.user);
+        alert("User create successfully");
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
-  
+
   return (
     <>
       <Helmet>
