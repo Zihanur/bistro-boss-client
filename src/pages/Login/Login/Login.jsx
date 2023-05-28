@@ -47,14 +47,12 @@ const Login = () => {
         console.log(user);
         form.reset("");
         Swal.fire({
-          title: 'Login Successfully!',
-          showClass: {
-            popup: 'animate__animated animate__fadeInDown'
-          },
-          hideClass: {
-            popup: 'animate__animated animate__fadeOutUp'
-          }
-        })
+          position: "top-end",
+          icon: "success",
+          title: "Login Successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         navigate(from,{replace:true})
       })
       .catch((error) => {
