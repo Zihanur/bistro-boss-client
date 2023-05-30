@@ -1,15 +1,52 @@
 import { useQuery } from "@tanstack/react-query";
 import { FaTrashAlt, FaUserShield } from "react-icons/fa";
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
+import Swal from "sweetalert2";
 
 const AllUsers = () => {
-  const { data: users = [] } = useQuery(["users"], async () => {
+  const { data: users = [], refetch } = useQuery(["users"], async () => {
     const res = await fetch("http://localhost:5000/users");
     return res.json();
   });
+
+  const handleMakeAdmin = user =>{
+    console.log(user._id)
+    fetch(`http://localhost:5000/users/admin/${user._id}`,{
+      method:"PATCH"
+    })
+    .then(res=>res.json())
+    .then(data=>{
+      if(data.modifiedCount){
+        refetch()
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: `${user.name} is Admin now`,
+          showConfirmButton: false,
+          timer: 1000
+        })
+      }
+    })
+  }
   
   const handleDelete = user =>{
-    console.log(user)
+    fetch(`http://localhost:5000/users/admin/${user._id}`,{
+      method:"DELETE"
+    })
+    .then(res=>res.json())
+    .then(data=>{
+      console.log(data)
+      if (data.deletedCount) {
+        refetch()
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: `${user.name} is Delete`,
+          showConfirmButton: false,
+          timer: 1000
+        })
+      }
+    })
   }
 
   return (
@@ -41,7 +78,7 @@ const AllUsers = () => {
                   {user.role === "admin" ? (
                     "admin"
                   ) : (
-                    <button className="btn btn-sm text-white bg-orange-600">
+                    <button onClick={()=>handleMakeAdmin(user)} className="btn btn-sm text-white bg-orange-600">
                       <FaUserShield></FaUserShield>
                     </button>
                   )}
