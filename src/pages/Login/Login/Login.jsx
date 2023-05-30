@@ -9,6 +9,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import loginImg from "../../../assets/others/authentication1.png";
 import { Helmet } from "react-helmet-async";
 import Swal from "sweetalert2";
+import SocialLogin from "../../Shared/SocialLogin/SocialLogin";
 
 const Login = () => {
   const { userLogin } = useContext(AuthContext);
@@ -129,8 +130,9 @@ const Login = () => {
               </p>
               <p className="text-orange-600">{error}</p>
             </form>
-          </div>
-        </div>
+            <SocialLogin></SocialLogin>
+          </div>        
+        </div>       
       </div>
     </>
   );

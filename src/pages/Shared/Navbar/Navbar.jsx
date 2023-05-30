@@ -27,18 +27,14 @@ const Navbar = () => {
         <Link to={"/order/salads"}>Order Food</Link>
       </li>
       <li>
-        <Link to={"/dashboard/mycart"}>
-          <button className="btn gap-2">
-            <FaShoppingCart></FaShoppingCart>
-            <div className="badge">+{cart?.length || 0}</div>
-          </button>
+        <Link to={"/dashboard/mycart"} className="btn btn-ghost gap-2">
+          <FaShoppingCart className="text-orange-600"></FaShoppingCart>
+          <div className="badge">+{cart?.length || 0}</div>
         </Link>
       </li>
       <li>
         {user ? (
-          <button onClick={handleLogOut} className="btn btn-ghost">
-            Logout
-          </button>
+          <Link onClick={handleLogOut}>Logout</Link>
         ) : (
           <Link to={"/login"}>Login</Link>
         )}
@@ -68,7 +64,7 @@ const Navbar = () => {
             </label>
             <ul
               tabIndex={0}
-              className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+              className="menu menu-compact dropdown-content mt-3 p-2 shadow  rounded-box w-52"
             >
               {navbarOptions}
             </ul>

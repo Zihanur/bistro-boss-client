@@ -5,10 +5,11 @@ import { Helmet } from "react-helmet-async";
 import { useContext } from "react";
 import { AuthContext } from "../../../providers/AuthProvider";
 import Swal from "sweetalert2";
+import SocialLogin from "../../Shared/SocialLogin/SocialLogin";
 
 const SignUp = () => {
-  const { createUser,userProfileUpdate } = useContext(AuthContext);
-  const nevigate = useNavigate()
+  const { createUser, userProfileUpdate } = useContext(AuthContext);
+  const nevigate = useNavigate();
   //react hook form cotrol
   const {
     register,
@@ -17,23 +18,36 @@ const SignUp = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
     createUser(data.email, data.password)
       .then((result) => {
         console.log(result.user);
-        userProfileUpdate(data.displayName,data.photoURL)
-        .then(()=>{})
-        .catch(error=>{
-          console.log(error.message)
-        })
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          title: 'User create successfully',
-          showConfirmButton: false,
-          timer: 1500
-        })
-        nevigate('/', {replace:true})
+        userProfileUpdate(data.displayName, data.photoURL)
+          .then(() => {
+            const userData = { name: data.name, email: data.email };
+            fetch("http://localhost:5000/users", {
+              method: "POST",
+              headers: {
+                "content-type": "application/json",
+              },
+              body: JSON.stringify(userData),
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                if (data.insertedId) {
+                  Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "User create successfully",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                  nevigate("/", { replace: true });
+                }
+              });
+          })
+          .catch((error) => {
+            console.log(error.message);
+          });
       })
       .catch((error) => {
         console.log(error.message);
@@ -140,6 +154,7 @@ const SignUp = () => {
                 </Link>
               </p>
             </form>
+            <SocialLogin></SocialLogin>
           </div>
         </div>
       </div>
