@@ -13,13 +13,18 @@ import {
   FaUtensils,
 } from "react-icons/fa";
 import useCart from "../hooks/useCart";
+import useAdmin from "../hooks/useAdmin";
 const Dashboard = () => {
   const [cart] = useCart();
-  const isAdmin = true;
+  //const isAdmin = true;
+  const [isAdmin] = useAdmin();
+
   return (
     <div className="w-full">
       <div className="drawer drawer-mobile">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
+
+        {/* Dasboard Outlets here */}
         <div className="drawer-content flex flex-col items-center justify-center">
           <Outlet></Outlet>
           <label
@@ -29,6 +34,8 @@ const Dashboard = () => {
             Open drawer
           </label>
         </div>
+
+        {/* Dashboard Drawer */}
         <div className="drawer-side bg-orange-400">
           <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
           <div className="p-8 uppercase font-bold">
@@ -36,6 +43,8 @@ const Dashboard = () => {
             <p className="text-xl">Reataurant</p>
           </div>
           <ul className="menu p-4 w-80 text-base-content">
+
+            {/* Condition Admin or User dashboard */}
             {isAdmin ? (
               <>
                 <li>
@@ -44,12 +53,12 @@ const Dashboard = () => {
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to={"/dashboard/additems"}>
-                    <FaUtensils></FaUtensils> Add Items
+                  <NavLink to={"/dashboard/additem"}>
+                    <FaUtensils></FaUtensils> Add Item
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to={"/dashboard/manageitem"}>
+                  <NavLink to={"/dashboard/manageitems"}>
                     <FaOutdent></FaOutdent> Manage Items
                   </NavLink>
                 </li>
@@ -89,7 +98,11 @@ const Dashboard = () => {
                 </li>
               </>
             )}
+
+            {/* Devider */}
             <div className="divider"></div>
+
+            {/* For all users and admin */}
             <li>
               <NavLink to={"/"}>
                 <FaHome></FaHome> Home

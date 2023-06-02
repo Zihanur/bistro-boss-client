@@ -15,6 +15,7 @@ const SignUp = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
   const onSubmit = (data) => {
@@ -34,6 +35,7 @@ const SignUp = () => {
               .then((res) => res.json())
               .then((data) => {
                 if (data.insertedId) {
+                  reset();
                   Swal.fire({
                     position: "top-end",
                     icon: "success",
